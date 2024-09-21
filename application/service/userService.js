@@ -7,6 +7,7 @@ class UserService{
     }
 
     async checkIsAvailableName(name){
+        try{
         const user = await this._repository.findByName(name);
         console.log("User Hasil CheckIsAvailbaleName "+name+" "+user);
         if(user){
@@ -15,10 +16,14 @@ class UserService{
         }
         console.log("CheckIsAvailable mengembalikan false");
         return false;
+    }catch(err){
+        console.error("Tidak bisa menjalankan fungsi checkIsAvailableName: "+err);
+    }
     }
 
     async register(name,address,birthday){
         if (!(await this.checkIsAvailableName(name))){
+            try{
             const user= new User(name,birthday,address);
             console.log("in function register : address :"+user.address);
             console.log("in function register : birthday :"+user.birthday);
@@ -26,6 +31,9 @@ class UserService{
             return {
                 messages : "Data untuk nama : "+name+" Telah berhasil di save"
             };
+        }catch(err){
+            console.error("Tidak bisa menjalankan register: "+err);
+        }
         }
         return {
             messages : "Data untuk nama: "+name+" sudah ada."
@@ -34,12 +42,16 @@ class UserService{
 
     async getAccountInfo(name){
         if((await this.checkIsAvailableName(name))){
+            try{
             const user = await this.checkIsAvailableName(name);
             return {
                 name : user.name,
                 address : user.address,
                 birthday : user.birthday
             };
+        }catch(err){
+            console.error("Tidak bisa menjalankan fungsi getAccountInfo: "+err)
+        }
         }
         return {
             messages : "Account Dengan nama : "+name+" Tidak ada"

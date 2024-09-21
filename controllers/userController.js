@@ -1,4 +1,6 @@
 const userService = require ('../application/service/userService');
+const {validationResult} = require('express-validator')
+const jwt = require('jsonwebtoken');
 
 async function updateAccountInfo(req,res,next){
     const errors = validationResult(req);
@@ -44,5 +46,7 @@ async function updateAccountInfo(req,res,next){
   }
   res.status(200).json(response);
   }
+
+
 
   module.exports= {updateAccountInfo,deleteAccountInfo,getAccountInfo,register};
