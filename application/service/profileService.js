@@ -3,40 +3,41 @@ const Profile = require('../../domain/aggregates/profile');
 
 class ProfileService{
     constructor(repository){
+        if(!repository){
+            throw Error("Profile Service membutuhkan constructor instance dari profileRepository")
+        }
         this._repository=repository;
     }
 
     async checkIsAvailableName(name){
         try{
             const profile = await this._repository.findByName(name);
-            console.log("Profile Hasil CheckIsAvailableName "+name+" "+profile);
             if(profile){
-                console.log("CheckIsAvailable mengembalikan True");
                 return profile;
             }
-            console.log("CheckIsAvailable mengembalikan false");
             return false;
         }catch(err){
         console.error("Tidak bisa menjalankan fungsi checkIsAvailableName: "+err);
         }
     }
 
-    async register(name,address,birthday){
-        if (!(await this.checkIsAvailableName(name))){
+    async register(profileDto){
+        if (!(await this.checkIsAvailableName(profileDto.name))){
             try{
-                const profile= new Profile(name,address,birthday);
-                console.log("in function register : address :"+profile.profileDetails);
-                console.log("in function register : birthday :"+profile.profileDetails);
-                await this._repository.save(profile);
+                const profile= new Profile(profileDto.name,profileDto.address,profileDto.birthday);
+                const newUser= await this._repository.save(profile);
+                if(!newUser){
+                    throw Error = "Tidak bisa menjalankan fungsi save"
+                }
                 return {
-                    messages : "Data untuk nama : "+name+" Telah berhasil di save"
+                    messages : "Data untuk nama : "+profileDto.name+" Telah berhasil di save"
                 };
             }catch(err){
                 console.error("Tidak bisa menjalankan register: "+err);
             }
         }
         return {
-            messages : "Data untuk nama: "+name+" sudah ada."
+            messages : "Data untuk nama: "+profileDto.name+" sudah ada."
         };  
     }
 
@@ -44,6 +45,9 @@ class ProfileService{
         if((await this.checkIsAvailableName(name))){
             try{
                 const profile= await this.checkIsAvailableName(name);
+                if(!profile){
+                    throw Error("Tidak bisa menjalankan fungsi checkIsAvailableName")
+                }
                 return {
                     name : profile.profileDetails.name,
                     address : profile.profileDetails.address,
@@ -58,24 +62,24 @@ class ProfileService{
         };
     }
 
-    async updateAccountInfo(name,address,birthday){
-        if(await this.checkIsAvailableName(name)){
+    async updateAccountInfo(profileDto){
+        if(await this.checkIsAvailableName(profileDto.name)){
             try{
-                const profile = new Profile(name,address,birthday)
+                const profile = new Profile(profileDto.name,profileDto.address,profileDto.birthday)
                 const updated = await this._repository.updateByName(profile);
                 if (updated){
                     return {
-                        messages : "Account Dengan nama "+name+" Berhasil di update"
+                        messages : "Account Dengan nama "+profileDto.name+" Berhasil di update"
                     };
                 }
-                throw new Error("updated tidak ada");
+                throw Error("updated tidak ada");
                 
             }catch(err){
                 console.error("Tidak dapat melakukan updateAccountInfo: "+err);
             }
         }
         return {
-            messages : "Account Dengan nama : "+name+" Tidak ada"
+            messages : "Account Dengan nama : "+profileDto.name+" Tidak ada"
         };
     }
 
@@ -90,11 +94,14 @@ class ProfileService{
                 }
                 return{
                     messages : "Account dengan nama: "+name+" Tidak ada"
-                }
+                };
             }catch(err){
                 console.log("Tidak bisa melakukan delete account info : "+err);
             }
         }
+        return {
+            messages: "Account dengan nama: "+name+" Tidak ada"
+        };
     }
 
 }

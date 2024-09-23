@@ -1,4 +1,4 @@
-const Profile = require('../aggregates/profile');
+const Profile = require('../../domain/aggregates/profile');
 
 function getModelProfileStreetAddress(address){
     const arr = address.split("-");
@@ -15,7 +15,7 @@ function getModelProfileStateAddress(address){
     return arr[2];
 }
 
-function mapModelProfileToAggregatesProfile(modelProfile) {
+function mapperProfile(modelProfile) {
   if (!modelProfile) {
     return null;
   }
@@ -28,4 +28,4 @@ function mapModelProfileToAggregatesProfile(modelProfile) {
   return profile;
 }
 
-module.exports = {mapModelProfileToAggregatesProfile};
+module.exports = {mapperProfile};

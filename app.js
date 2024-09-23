@@ -2,11 +2,11 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
-const {authenticateToken} = require('../biodata/middleware/auth');
+const {authenticateToken} = require('./insfratucture/middleware/auth');
 const jwt =  require('jsonwebtoken');
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const apiRouter = require('./routes/api/index');
 
 
 const app = express();
@@ -26,7 +26,7 @@ app.post('/getJWT',  (req, res)=> {
 }); //Mendapatkan JWT
 
 app.use('/index',authenticateToken, indexRouter);
-app.use('/users',authenticateToken, usersRouter);
+app.use('/api',authenticateToken, apiRouter);
 
 app.use(function(req, res, next) {
   next(createError(404));

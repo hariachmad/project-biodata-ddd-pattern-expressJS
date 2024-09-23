@@ -1,16 +1,16 @@
-const profileModel = require ('../models/profileModel');
-const {mapModelProfileToAggregatesProfile} = require('../map/mapperProfile');
+const profileModel = require ('../../insfratucture/models/profileModel');
+const {mapperProfile} = require('../../insfratucture/map/mapperProfile');
 
 class ProfileRepository{
     async save(profile){
-        console.log("in models: "+profile.profileDetails.name);
         let payload = {
             name : profile.profileDetails.name,
             address : profile.profileDetails.address,
             birthday : profile.profileDetails.birthday
         }
         try{
-            await profileModel.create(payload);
+            const newProfile = await profileModel.create(payload);
+            return  newProfile;
         }catch(err){
             console.error("Tidak dapat menjalankan save :"+err);
         }
@@ -18,15 +18,12 @@ class ProfileRepository{
 
     async findByName(name){
         try{
-            console.log("name di findByName: "+name);
             const profile =  await profileModel.findOne({
                 where : {name : name}
             });
 
         if(profile){
-            console.log("profileModel: "+profile.address);
-            const aggregatesProfile = mapModelProfileToAggregatesProfile(profile);
-            console.log("aggregatesProfile: "+aggregatesProfile.profileDetails);
+            const aggregatesProfile = mapperProfile(profile);
             return aggregatesProfile;
         }
         return false;
@@ -39,6 +36,10 @@ class ProfileRepository{
             const profile = await profileModel.destroy({
                 where : {name : name}
             });
+
+            if(!profile){
+                throw new Error("Tidak bisa melakukan melakukan fungsi profileModel.destroy()");
+            }
 
             return profile;
         }catch(err){
@@ -54,7 +55,9 @@ class ProfileRepository{
                     where : {name : profile.profileDetails.name}
                 } 
             )
-            console.log("arrUser: "+arrUser);
+            if(!arrUser){
+                throw new Error("Tidak bisa melakukan fungsi profileModel.upsert()")
+            }
             return arrUser;
         }catch(err){ 
             console.error("Tidak dapat melakukan updateNameByName: "+err);
