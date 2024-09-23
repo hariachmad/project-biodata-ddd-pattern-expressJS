@@ -3,7 +3,7 @@ const { param } = require('express-validator');
 
 const userValidation =  [
     body('name').notEmpty().withMessage("Nama dibutuhkan"),
-    body('address').notEmpty().withMessage("Membutuhkan alamat email yang valid"),
+    body('address').notEmpty().withMessage("Membutuhkan address yang valid"),
     body('birthday').notEmpty().withMessage("Tanggal Lahir tidak boleh kosong").isDate().withMessage("Membutuhkan Tanggal Sesuai Format")
   ];
 

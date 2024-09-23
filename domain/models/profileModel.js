@@ -1,12 +1,12 @@
 const {DataTypes} = require('sequelize');
 const Sequelize =require('../../config/db');
 
-const user= Sequelize.define(
-    'user',{
+const profile= Sequelize.define(
+    'profile',{
         name : {
             type : DataTypes.STRING,
-            primaryKey: true,
-            allowNull : false      
+            allowNull : false,
+            primaryKey : true      
         },
         address : {
             type : DataTypes.STRING,
@@ -20,12 +20,12 @@ const user= Sequelize.define(
     }
 )
 
-console.log(user === Sequelize.models.user);
+console.log(profile === Sequelize.models.profile);
 
 const syncDB =async () => {
     try {
-        await user.sync({alter: true});
-        console.log('The table for the User model was just (re)created!');
+        await profile.sync({alter: true});
+        console.log('The table for the Profile model was just (re)created!');
     }catch(error){
         console.error('Unable to sync Database', error);
     }
@@ -33,4 +33,4 @@ const syncDB =async () => {
 
 syncDB();
 
-module.exports = user;
+module.exports = profile;
