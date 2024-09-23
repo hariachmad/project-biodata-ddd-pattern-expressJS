@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const profileRouter = require('../api/profile')
+const profileRouter = require('./profile')
 
 router.use('/profile',profileRouter);
 

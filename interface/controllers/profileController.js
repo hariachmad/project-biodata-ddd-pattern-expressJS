@@ -1,7 +1,7 @@
-const profileService = require ('../application/service/profileService');
+const profileService = require ('../../application/service/profileService');
 const {validationResult} = require('express-validator');
-const ProfileDto = require('../application/dto/profileDto');
-const {dtoValidator} = require('../application/dto/dtoValidator');
+const ProfileDto = require('../../application/dto/profileDto');
+const {dtoValidator} = require('../../application/dto/dtoValidator');
 const jwt = require('jsonwebtoken');
 
 async function updateAccountInfo(req,res,next){

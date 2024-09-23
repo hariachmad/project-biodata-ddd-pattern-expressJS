@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {profileValidator,nameValidator} = require('../../insfratucture/middleware/validation');
+const {profileValidator,nameValidator} = require('../../../insfratucture/middleware/validation');
 const {updateAccountInfo,deleteAccountInfo,getAccountInfo,register}= require('../../controllers/profileController')
 
 /* GET users listing. */

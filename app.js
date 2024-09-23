@@ -5,8 +5,8 @@ const logger = require('morgan');
 const {authenticateToken} = require('./insfratucture/middleware/auth');
 const jwt =  require('jsonwebtoken');
 
-const indexRouter = require('./routes/index');
-const apiRouter = require('./routes/api/index');
+const indexRouter = require('./interface/routes/index');
+const apiRouter = require('./interface/routes/api/index');
 
 
 const app = express();
