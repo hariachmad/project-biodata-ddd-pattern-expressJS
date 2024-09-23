@@ -20,8 +20,8 @@ class ProfileRepository{
         try{
             console.log("name di findByName: "+name);
             const profile =  await profileModel.findOne({
-            where : {name : name}
-        });
+                where : {name : name}
+            });
 
         if(profile){
             console.log("profileModel: "+profile.address);
@@ -30,9 +30,9 @@ class ProfileRepository{
             return aggregatesProfile;
         }
         return false;
-    }catch(err){
+        }catch(err){
         console.error("Tidak bisa melakukan findByName: "+err);
-    }}
+        }}
 
     async deleteByName(name){
         try{
@@ -49,7 +49,8 @@ class ProfileRepository{
     async updateByName(profile){
         try{
             const arrUser = await profileModel.upsert(
-                {name : profile.profileDetails.name,address : profile.profileDetails.address,birthday : profile.profileDetails.birthday},{
+                {
+                    name : profile.profileDetails.name,address : profile.profileDetails.address,birthday : profile.profileDetails.birthday},{
                     where : {name : profile.profileDetails.name}
                 } 
             )

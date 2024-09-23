@@ -8,32 +8,32 @@ class ProfileService{
 
     async checkIsAvailableName(name){
         try{
-        const profile = await this._repository.findByName(name);
-        console.log("Profile Hasil CheckIsAvailableName "+name+" "+profile);
-        if(profile){
-            console.log("CheckIsAvailable mengembalikan True");
-            return profile;
-        }
-        console.log("CheckIsAvailable mengembalikan false");
-        return false;
-    }catch(err){
+            const profile = await this._repository.findByName(name);
+            console.log("Profile Hasil CheckIsAvailableName "+name+" "+profile);
+            if(profile){
+                console.log("CheckIsAvailable mengembalikan True");
+                return profile;
+            }
+            console.log("CheckIsAvailable mengembalikan false");
+            return false;
+        }catch(err){
         console.error("Tidak bisa menjalankan fungsi checkIsAvailableName: "+err);
-    }
+        }
     }
 
     async register(name,address,birthday){
         if (!(await this.checkIsAvailableName(name))){
             try{
-            const profile= new Profile(name,address,birthday);
-            console.log("in function register : address :"+profile.profileDetails);
-            console.log("in function register : birthday :"+profile.profileDetails);
-            await this._repository.save(profile);
-            return {
-                messages : "Data untuk nama : "+name+" Telah berhasil di save"
-            };
-        }catch(err){
-            console.error("Tidak bisa menjalankan register: "+err);
-        }
+                const profile= new Profile(name,address,birthday);
+                console.log("in function register : address :"+profile.profileDetails);
+                console.log("in function register : birthday :"+profile.profileDetails);
+                await this._repository.save(profile);
+                return {
+                    messages : "Data untuk nama : "+name+" Telah berhasil di save"
+                };
+            }catch(err){
+                console.error("Tidak bisa menjalankan register: "+err);
+            }
         }
         return {
             messages : "Data untuk nama: "+name+" sudah ada."
@@ -43,15 +43,15 @@ class ProfileService{
     async getAccountInfo(name){
         if((await this.checkIsAvailableName(name))){
             try{
-            const profile= await this.checkIsAvailableName(name);
-            return {
-                name : profile.profileDetails.name,
-                address : profile.profileDetails.address,
-                birthday : profile.profileDetails.birthday
-            };
-        }catch(err){
-            console.error("Tidak bisa menjalankan fungsi getAccountInfo: "+err)
-        }
+                const profile= await this.checkIsAvailableName(name);
+                return {
+                    name : profile.profileDetails.name,
+                    address : profile.profileDetails.address,
+                    birthday : profile.profileDetails.birthday
+                };
+            }catch(err){
+                console.error("Tidak bisa menjalankan fungsi getAccountInfo: "+err)
+            }
         }
         return {
             messages : "Account Dengan nama : "+name+" Tidak ada"
@@ -70,9 +70,9 @@ class ProfileService{
                 }
                 throw new Error("updated tidak ada");
                 
-        }catch(err){
-            console.error("Tidak dapat melakukan updateAccountInfo: "+err);
-        }
+            }catch(err){
+                console.error("Tidak dapat melakukan updateAccountInfo: "+err);
+            }
         }
         return {
             messages : "Account Dengan nama : "+name+" Tidak ada"

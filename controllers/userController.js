@@ -31,7 +31,7 @@ async function updateAccountInfo(req,res,next){
     const response = await profileService.getAccountInfo(name);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
-  }
+    }
     res.status(200).json(response);
   }
 
@@ -43,7 +43,7 @@ async function updateAccountInfo(req,res,next){
     const response = await profileService.register(name,address, birthday);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
-  }
+    }
   res.status(200).json(response);
   }
 
