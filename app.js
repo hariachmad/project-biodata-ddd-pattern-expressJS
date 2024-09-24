@@ -7,8 +7,6 @@ const jwt =  require('jsonwebtoken');
 
 const indexRouter = require('./interface/routes/index');
 const apiRouter = require('./interface/routes/api/index');
-
-
 const app = express();
 
 app.use(logger('dev'));
