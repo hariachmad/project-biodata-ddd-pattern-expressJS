@@ -22,7 +22,8 @@ class ProfileService{
     }
 
     async register(profileDto){
-        if (!(await this.checkIsAvailableName(profileDto.name))){
+        const isAvailable = await this.checkIsAvailableName(profileDto.name);
+        if (!(isAvailable)){
             try{
                 const profile= new Profile(profileDto.name,profileDto.address,profileDto.birthday);
                 const newUser= await this._repository.save(profile);
@@ -42,7 +43,8 @@ class ProfileService{
     }
 
     async getAccountInfo(name){
-        if((await this.checkIsAvailableName(name))){
+        const isAvailable = await this.checkIsAvailableName(name);
+        if(isAvailable){
             try{
                 const profile= await this.checkIsAvailableName(name);
                 if(!profile){
@@ -63,7 +65,8 @@ class ProfileService{
     }
 
     async updateAccountInfo(profileDto){
-        if(await this.checkIsAvailableName(profileDto.name)){
+        const isAvailable = await this.checkIsAvailableName(profileDto.name);
+        if(isAvailable){
             try{
                 const profile = new Profile(profileDto.name,profileDto.address,profileDto.birthday)
                 const updated = await this._repository.updateByName(profile);
@@ -84,7 +87,8 @@ class ProfileService{
     }
 
     async deleteAccountInfo(name){
-        if(await this.checkIsAvailableName(name)){
+        const isAvailable = await this.checkIsAvailableName(name);
+        if(isAvailable){
             try{
                 const profile = await this._repository.deleteByName(name);
                 if(profile){
